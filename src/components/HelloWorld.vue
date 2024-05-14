@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 import matrix from '../../../algorithms-js/src/ol/ol.matrix'
 import pentomino from '../../../algorithms-js/src/pentomino/pentomino'
-//const matrix = require('../../../algorithms-js/src/ol/ol.matrix')
+// const matrix = require('../../../algorithms-js/src/ol/ol.matrix')
 // const pentomino = require('../../../algorithms-js/src/pentomino/pentomino')
 // const myDlx = require('../../../algorithms-js/src/dlx')
 
 import * as dlxlib from 'dlxlib'
 import * as dl from 'dancing-links'
-// import myDlx from '../../../algorithms-js/src/dlx'
+import myDlx from '../../../algorithms-js/src/dlx'
 
-const dlxSolve1 = (p) => dlxlib.solve(p) // ok
-const dlxSolve2 = (p) => dl.findAll(p.map((row) => ({ row }))).map((x) => x.map((o) => o.index)) // ok
-//const dlxSolve3 = (p) => myDlx(p, 328) // ok
+const dlxSolve1 = (p: [][]) => dlxlib.solve(p) // ok
+const dlxSolve2 = (p: any) =>
+  dl
+    .find(
+      p.map((row: any) => ({ row })),
+      10
+    )
+    .map((x) => x.map((o) => o.index)) // ok
+const dlxSolve3 = (p: [][]) => myDlx(p, 328) // ok
 const dlxSolve = dlxSolve2
 
 console.log('MATRIX', matrix)
@@ -22,7 +26,7 @@ console.log('DLXLIB', dlxlib)
 console.log('dancing-links', dl)
 // console.log('MYDLX', myDlx)
 
-const prep = (s, dimc) => matrix.reshape(s.replace(/[ \n]/g, '').split(''), dimc)
+const prep = (s: string, dimc: number) => matrix.reshape(s.replace(/[ \n]/g, '').split(''), dimc)
 const filledBoards = {
   '4x15': prep(
     `   l l x n n n i i i i i f v v v
@@ -44,8 +48,10 @@ const filledBoards = {
 
 const pento = pentomino(filledBoards['4x15'], dlxSolve)
 console.log('PENTO', pento)
-const solutions = pento.solve()
+const solutions = pento.solve().map((s: []) => matrix.reshape(s, 15))
 console.log('SOLUTIONS', solutions)
+
+const sol = solutions[9]
 
 defineProps<{
   msg: string
@@ -56,9 +62,14 @@ defineProps<{
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>You’ve successfully created a project with</h3>
-    Matrix is: {{ filledBoards['4x15'] }}
-    <hr />
-    {{ filledBoards }}
+
+    <table style="background-color: black; color: lightcyan">
+      <tbody>
+        <tr v-for="row in sol">
+          <td v-for="ch in row" :class="ch"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -68,6 +79,45 @@ h1 {
   font-size: 2.6rem;
   position: relative;
   top: -10px;
+}
+
+.l {
+  background-color: red;
+}
+
+.x {
+  background-color: green;
+}
+
+.n {
+  background-color: azure;
+}
+.i {
+  background-color: bisque;
+}
+.f {
+  background-color: #777;
+}
+.u {
+  background-color: blueviolet;
+}
+.p {
+  background-color: chartreuse;
+}
+.w {
+  background-color: darksalmon;
+}
+.y {
+  background-color: magenta;
+}
+.z {
+  background-color: chocolate;
+}
+.t {
+  background-color: gold;
+}
+.v {
+  background-color: turquoise;
 }
 
 h3 {
@@ -84,5 +134,13 @@ h3 {
   .greetings h3 {
     text-align: left;
   }
+}
+
+table {
+  border: 11px;
+}
+
+td {
+  padding: 25px;
 }
 </style>
