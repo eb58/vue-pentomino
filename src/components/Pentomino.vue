@@ -61,8 +61,6 @@ defineProps<{
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
-    <h3>You’ve successfully created a project with</h3>
-
     <table style="background-color: black; color: lightcyan">
       <tbody>
         <tr v-for="row in sol">
@@ -81,14 +79,29 @@ h1 {
   top: -10px;
 }
 
+h3 {
+  font-size: 1.2rem;
+}
+
+.greetings h1,
+.greetings h3 {
+  text-align: center;
+}
+
+table {
+  border: 11px;
+}
+
+td {
+  padding: 25px;
+}
+
 .l {
   background-color: red;
 }
-
 .x {
   background-color: green;
 }
-
 .n {
   background-color: azure;
 }
@@ -118,29 +131,5 @@ h1 {
 }
 .v {
   background-color: turquoise;
-}
-
-h3 {
-  font-size: 1.2rem;
-}
-
-.greetings h1,
-.greetings h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
-  }
-}
-
-table {
-  border: 11px;
-}
-
-td {
-  padding: 25px;
 }
 </style>
