@@ -8,17 +8,16 @@ const reshape = (xs, dim) =>
 const randomInRange = (min, max) => Math.random() * (max - min) + min
 const randomIntInRange = (min, max) => Math.floor(randomInRange(min, max + 1))
 
-const N = 200
 const dlxSolve = (p) =>
    dl
       .find(
          p.map((row) => ({ row })),
-         N
+         20
       )
       .map((x) => x.map((o) => o.index))
 
-console.log('PENTOMINO', pentomino)
-console.log('dancing-links', dl)
+// console.log('PENTOMINO', pentomino)
+// console.log('dancing-links', dl)
 // console.log('MYDLX', myDlx)
 
 const prep = (s, dimc) => reshape(s.replace(/[ \n]/g, '').split(''), dimc)
@@ -41,16 +40,38 @@ const filledBoards = {
    )
 }
 
-const pento = pentomino(filledBoards['6x10'], dlxSolve)
-const solutions = pento.solve().map((s) => reshape(s, 10))
-const isBookmarked = true
-let sol = ref(solutions[randomIntInRange(0, N)])
-const nextSolution = () => (sol.value = solutions[randomIntInRange(0, N)])
+const calcSolutions = (type) => {
+   const pento = pentomino(filledBoards[type], dlxSolve)
+   console.log('Start Calculation')
+   const solutions = pento.solve().map((s) => reshape(s, type === '6x10' ? 10 : 15))
+   console.log('End Calculation', solutions.length)
+   return solutions
+}
+
+let solutions = calcSolutions('4x15')
+
+const sol = ref(solutions[randomIntInRange(0, solutions.length - 1)])
+const toggle = ref('4x15')
+
+const nextSolution = () => (sol.value = solutions[randomIntInRange(0, solutions.length - 1)])
+
+const changeModel = () => {
+   console.log(toggle.value)
+   sol.value = []
+   //setImmediate(() => {
+   solutions = calcSolutions(toggle.value)
+   nextSolution()
+   //})
+}
 </script>
 <template>
    <div class="greetings">
       <h1 class="green">Pentomino</h1>
-      <div style="text-align: center">
+      <div v-if="sol?.length" style="text-align: center">
+         <v-btn-toggle @click="changeModel" v-model="toggle" color="primary" mandatory>
+            <v-btn value="4x15">4 x 15</v-btn>
+            <v-btn value="6x10">6 x 10</v-btn>
+         </v-btn-toggle>
          <table style="background-color: black">
             <tbody>
                <tr v-for="row in sol">
@@ -58,7 +79,9 @@ const nextSolution = () => (sol.value = solutions[randomIntInRange(0, N)])
                </tr>
             </tbody>
          </table>
-         <v-btn @click="nextSolution">Next Solution</v-btn>
+         <div>
+            <v-btn @click="nextSolution">Next Solution</v-btn>
+         </div>
       </div>
    </div>
 </template>
@@ -88,6 +111,7 @@ table {
    margin-left: auto;
    margin-right: auto;
    border: 11px;
+   margin-top: 10px;
    margin-bottom: 10px;
 }
 
