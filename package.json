@@ -13,11 +13,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@algorithm.ts/dlx": "^4.0.0",
-    "dancing-links": "^2.1.1",
-    "dlx": "^0.2.1",
-    "dlxlib": "^1.0.3",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "vuetify": "^3.6.6",
+    "dancing-links": "^2.1.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
