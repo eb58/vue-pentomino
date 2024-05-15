@@ -23,11 +23,19 @@ const dlxSolve = (p) =>
 const prep = (s, dimc) => reshape(s.replace(/[ \n]/g, '').split(''), dimc)
 const filledBoards = {
    '4x15': prep(
-      `   l l x n n n i i i i i f v v v
+      ` l l x n n n i i i i i f v v v
         l x x x p n n w w z f f f t v
         l u x u p p w w y z z z f t v
         l u u u p p w y y y y z t t t`,
       15
+   ),
+   '5x12': prep(
+      ` w l l l l y n f f p p p 
+        w w z z l y n n f f p p 
+        t w w z y y v n f x u u 
+        t t t z z y v n x x x u
+        t i i i i i v v v x u u `,
+      12
    ),
    '6x10': prep(
       ` n w w y y y y p p p
@@ -40,10 +48,16 @@ const filledBoards = {
    )
 }
 
+const mapType2Dims = {
+   '4x15': { dimr: 4, dimc: 15 },
+   '5x12': { dimr: 5, dimc: 12 },
+   '6x10': { dimr: 6, dimc: 10 }
+}
+
 const calcSolutions = (type) => {
    const pento = pentomino(filledBoards[type], dlxSolve)
    console.log('Start Calculation')
-   const solutions = pento.solve().map((s) => reshape(s, type === '6x10' ? 10 : 15))
+   const solutions = pento.solve().map((s) => reshape(s, mapType2Dims[type].dimc))
    console.log('End Calculation', solutions.length)
    return solutions
 }
@@ -70,6 +84,7 @@ const changeModel = () => {
       <div v-if="sol?.length" style="text-align: center">
          <v-btn-toggle @click="changeModel" v-model="toggle" color="primary" mandatory>
             <v-btn value="4x15">4 x 15</v-btn>
+            <v-btn value="5x12">5 x 12</v-btn>
             <v-btn value="6x10">6 x 10</v-btn>
          </v-btn-toggle>
          <table style="background-color: black">
