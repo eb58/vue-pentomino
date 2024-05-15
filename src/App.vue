@@ -5,7 +5,7 @@ import Pentomino from './components/Pentomino.vue'
 <template>
    <header>
       <div class="wrapper">
-         <Pentomino msg="Pentomino" />
+         <Pentomino />
       </div>
    </header>
 

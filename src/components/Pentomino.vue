@@ -1,5 +1,6 @@
 <script setup lang="js">
 import { ref } from 'vue'
+import PentominoTable from './PentominoTable.vue'
 import pentomino from '../../../algorithms-js/src/pentomino/pentomino'
 import * as dl from 'dancing-links'
 
@@ -7,18 +8,6 @@ const reshape = (xs, dim) =>
    xs.reduce((acc, x, i) => (i % dim ? acc[acc.length - 1].push(x) : acc.push([x])) && acc, [])
 const randomInRange = (min, max) => Math.random() * (max - min) + min
 const randomIntInRange = (min, max) => Math.floor(randomInRange(min, max + 1))
-
-const dlxSolve = (p) =>
-   dl
-      .find(
-         p.map((row) => ({ row })),
-         20
-      )
-      .map((x) => x.map((o) => o.index))
-
-// console.log('PENTOMINO', pentomino)
-// console.log('dancing-links', dl)
-// console.log('MYDLX', myDlx)
 
 const prep = (s, dimc) => reshape(s.replace(/[ \n]/g, '').split(''), dimc)
 const filledBoards = {
@@ -48,55 +37,46 @@ const filledBoards = {
    )
 }
 
-const mapType2Dims = {
-   '4x15': { dimr: 4, dimc: 15 },
-   '5x12': { dimr: 5, dimc: 12 },
-   '6x10': { dimr: 6, dimc: 10 }
-}
-
 const calcSolutions = (type) => {
+   const dlxSolve = (p) =>
+      dl
+         .find(
+            p.map((row) => ({ row })),
+            20
+         )
+         .map((x) => x.map((o) => o.index))
    const pento = pentomino(filledBoards[type], dlxSolve)
    console.log('Start Calculation')
-   const solutions = pento.solve().map((s) => reshape(s, mapType2Dims[type].dimc))
+   const dimc = 0 + type.split('x')[1]
+   const solutions = pento.solve().map((s) => reshape(s, dimc))
    console.log('End Calculation', solutions.length)
    return solutions
 }
 
-let solutions = calcSolutions('4x15')
-
-const sol = ref(solutions[randomIntInRange(0, solutions.length - 1)])
+const solution = ref(undefined)
 const toggle = ref('4x15')
 
-const nextSolution = () => (sol.value = solutions[randomIntInRange(0, solutions.length - 1)])
+const getRandomSolution = (solutions) => solutions[randomIntInRange(0, solutions.length - 1)]
 
 const changeModel = () => {
-   console.log(toggle.value)
-   sol.value = []
-   //setImmediate(() => {
    solutions = calcSolutions(toggle.value)
-   nextSolution()
-   //})
+   solution.value = getRandomSolution(solutions)
 }
+
+let solutions = calcSolutions(toggle.value)
+solution.value = getRandomSolution(solutions)
 </script>
 <template>
    <div class="greetings">
       <h1 class="green">Pentomino</h1>
-      <div v-if="sol?.length" style="text-align: center">
+      <div style="text-align: center">
          <v-btn-toggle @click="changeModel" v-model="toggle" color="primary" mandatory>
             <v-btn value="4x15">4 x 15</v-btn>
             <v-btn value="5x12">5 x 12</v-btn>
             <v-btn value="6x10">6 x 10</v-btn>
          </v-btn-toggle>
-         <table style="background-color: black">
-            <tbody>
-               <tr v-for="row in sol">
-                  <td v-for="ch in row" :class="ch"></td>
-               </tr>
-            </tbody>
-         </table>
-         <div>
-            <v-btn @click="nextSolution">Next Solution</v-btn>
-         </div>
+         <pentomino-table :solution="solution"></pentomino-table>
+         <v-btn @click="solution.value = getRandomSolution(solutions)">Next Solution</v-btn>
       </div>
    </div>
 </template>
@@ -120,54 +100,5 @@ h3 {
 .greetings h1,
 .greetings h3 {
    text-align: center;
-}
-
-table {
-   margin-left: auto;
-   margin-right: auto;
-   border: 11px;
-   margin-top: 10px;
-   margin-bottom: 10px;
-}
-
-td {
-   padding: 25px;
-}
-
-.l {
-   background-color: red;
-}
-.x {
-   background-color: green;
-}
-.n {
-   background-color: azure;
-}
-.i {
-   background-color: bisque;
-}
-.f {
-   background-color: #777;
-}
-.u {
-   background-color: blueviolet;
-}
-.p {
-   background-color: chartreuse;
-}
-.w {
-   background-color: darksalmon;
-}
-.y {
-   background-color: magenta;
-}
-.z {
-   background-color: chocolate;
-}
-.t {
-   background-color: gold;
-}
-.v {
-   background-color: turquoise;
 }
 </style>
