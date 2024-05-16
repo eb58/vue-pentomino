@@ -1,4 +1,4 @@
-import pentomino from '../../../algorithms-js/src/pentomino/pentomino'
+import pentomino from './pentomino'
 import * as dl from 'dancing-links'
 
 const reshape = (xs, dim) =>
@@ -37,7 +37,7 @@ const calcSolutions = (type: string, count: number) => {
       dl
          .find(
             p.map((row) => ({ row })),
-            20
+            count
          )
          .map((x) => x.map((o) => o.index))
    const pento = pentomino(filledBoards[type], dlxSolve)

@@ -1,5 +1,4 @@
 <script setup lang="js">
-import { ref } from 'vue'
 const props = defineProps({
    solution: Array
 })
