@@ -14,7 +14,7 @@ const pentomino = (filledBoard, dlxSolve) => {
    }
 
    const translateBoard = (board, dr, dc, defVal = ' ') => {
-      const count = (board) => board.flat().reduce((acc, x) => (acc += x !== defVal), 0)
+      const count = (board) => board.flat().reduce((acc, x) => acc + (x !== defVal), 0)
       const newBoard = translate(board, dr, dc, defVal)
       return count(board) === count(newBoard) ? newBoard : undefined
    }

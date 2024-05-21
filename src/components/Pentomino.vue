@@ -29,6 +29,7 @@ solution.value = getRandomSolution(solutions)
       <h1 class="green">Pentomino</h1>
       <div>
          <v-btn-toggle @click="changeModel" v-model="sizeOfPentomino" color="primary" mandatory>
+            <v-btn :class="`${cursor}`" value="3x20">3 x 20</v-btn>
             <v-btn :class="`${cursor}`" value="4x15">4 x 15</v-btn>
             <v-btn :class="`${cursor}`" value="5x12">5 x 12</v-btn>
             <v-btn :class="`${cursor}`" value="6x10">6 x 10</v-btn>

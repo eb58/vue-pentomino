@@ -6,6 +6,12 @@ const reshape = (xs, dim) =>
 
 const prep = (s, dimc) => reshape(s.replace(/[ \n]/g, '').split(''), dimc)
 const filledBoards = {
+   '3x20': prep(
+      ` u u x p p p l l l l f t t t w w z v v v
+        u x x x p p l n n f f f t w w y z z z v
+        u u x i i i i i n n n f t w y y y y z v`,
+      20
+   ),
    '4x15': prep(
       ` l l x n n n i i i i i f v v v
         l x x x p n n w w z f f f t v
@@ -43,7 +49,7 @@ const calcSolutions = (type: string, count: number) => {
    const pento = pentomino(filledBoards[type], dlxSolve)
    console.log('Start Calculation')
    const dimc = 0 + type.split('x')[1]
-   const solutions = pento.solve().map((s) => reshape(s, dimc))
+   const solutions = pento.solve().map((s: any) => reshape(s, dimc))
    console.log('End Calculation', solutions.length)
    return solutions
 }
