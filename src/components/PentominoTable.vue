@@ -1,66 +1,66 @@
 <script setup lang="js">
 const props = defineProps({
-   solution: Array
+  solution: Array
 })
 </script>
 <template>
-   <table v-if="solution?.length > 0">
-      <tbody>
-         <tr v-for="row in solution">
-            <td v-for="ch in row" :class="ch"></td>
-         </tr>
-      </tbody>
-   </table>
+  <table v-if="solution?.length > 0">
+    <tbody>
+      <tr v-for="row in solution">
+        <td v-for="ch in row" :class="ch"></td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <style scoped>
 table {
-   background-color: rgb(20, 18, 18);
-   margin-left: auto;
-   margin-right: auto;
-   border: 11px;
-   margin-top: 10px;
-   margin-bottom: 10px;
+  background-color: rgb(20, 18, 18);
+  margin-left: auto;
+  margin-right: auto;
+  border: 11px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 td {
-   padding: 30px;
+  padding: 30px;
 }
 
 .l {
-   background-color: red;
+  background-color: red;
 }
 .x {
-   background-color: green;
+  background-color: green;
 }
 .n {
-   background-color: azure;
+  background-color: azure;
 }
 .i {
-   background-color: bisque;
+  background-color: bisque;
 }
 .f {
-   background-color: #777;
+  background-color: #777;
 }
 .u {
-   background-color: blueviolet;
+  background-color: blueviolet;
 }
 .p {
-   background-color: chartreuse;
+  background-color: chartreuse;
 }
 .w {
-   background-color: darksalmon;
+  background-color: darksalmon;
 }
 .y {
-   background-color: magenta;
+  background-color: magenta;
 }
 .z {
-   background-color: chocolate;
+  background-color: chocolate;
 }
 .t {
-   background-color: gold;
+  background-color: gold;
 }
 .v {
-   background-color: turquoise;
+  background-color: turquoise;
 }
 </style>
